@@ -25,7 +25,7 @@ class EditP extends HTMLElement {
         if (currentProduct && this.shadowRoot) {
             // Asignando el nombre del álbum y el autor
             (this.shadowRoot.querySelector('#albumName') as HTMLInputElement).value = currentProduct.title;
-            (this.shadowRoot.querySelector('#artistName') as HTMLInputElement).value = currentProduct.date.toString;
+            (this.shadowRoot.querySelector('#artistName') as HTMLInputElement).value = currentProduct.date;
     
             // Asegurando que los valores de precio y stock sean cadenas antes de asignarlos
             (this.shadowRoot.querySelector('#price') as HTMLInputElement).value = currentProduct.price.toString(); 
@@ -36,10 +36,10 @@ class EditP extends HTMLElement {
         }
     }
     changeTitle(e: any)  {
-        editpr.albumname = e.target.value;
+        editpr.title= e.target.value;
     }
     changeAutor(e: any)  {
-        editpr.author = e.target.value;
+        editpr.date = e.target.value;
     }
     changePrice(e: any)  {
         editpr.price = e.target.value;
