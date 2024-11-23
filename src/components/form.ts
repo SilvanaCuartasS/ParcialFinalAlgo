@@ -1,15 +1,17 @@
-import { editEvents } from "../utils/firebase";
-import { appState, dispatch } from "../store";
-import { navigate } from "../store/action";
-import { Screens } from "..//types/store";
-const editpr = {
+import { dispatch } from '../store';
+import { navigate } from '../store/action';
+import { Screens } from '../types/store';
+import { addEvento } from '../utils/firebase';
+
+const addpr = {
     title: '',
-    date: '',
+	date: '',
 	location: '',
     image: '',
-    attendees : '',
+	attendees: '',
 }
-class EditP extends HTMLElement {
+
+class Add extends HTMLElement {
    
     constructor() {
         super();
@@ -18,91 +20,64 @@ class EditP extends HTMLElement {
 
     connectedCallback() {
         this.render();
-        this.setInputValues();
-    }
-    setInputValues() {
-        const currentProduct = appState.currentProduct;
-        if (currentProduct && this.shadowRoot) {
-            // Asignando el nombre del álbum y el autor
-            (this.shadowRoot.querySelector('#albumName') as HTMLInputElement).value = currentProduct.title;
-            (this.shadowRoot.querySelector('#artistName') as HTMLInputElement).value = currentProduct.date;
-    
-            // Asegurando que los valores de precio y stock sean cadenas antes de asignarlos
-            (this.shadowRoot.querySelector('#price') as HTMLInputElement).value = currentProduct.price.toString(); 
-            (this.shadowRoot.querySelector('#stock') as HTMLInputElement).value = currentProduct.stock.toString(); 
-    
-            // Asignando la imagen
-            (this.shadowRoot.querySelector('#imageLink') as HTMLInputElement).value = currentProduct.image;
-        }
     }
     changeTitle(e: any)  {
-        editpr.title= e.target.value;
+        addpr.title = e.target.value;
     }
-    changeAutor(e: any)  {
-        editpr.date = e.target.value;
+    changeDate(e: any)  {
+        addpr.date = e.target.value;
     }
-    changePrice(e: any)  {
-        editpr.price = e.target.value;
+    changeLocation(e: any)  {
+        addpr.location = e.target.value;
     }
 
-    changeStock(e: any)  {
-        editpr.stock = e.target.value;
+    changeAtendees(e: any)  {
+        addpr.attendees = e.target.value;
     }
     changeImage(e: any) {
-        editpr.image = e.target.value;
+        addpr.image = e.target.value;
        
     }
     
-    submitForm() {
-        if (appState.currentProduct?.id) {
-            editEvents(appState.currentProduct.id, editpr);  
-            alert('Evento actualizado');
-            dispatch(navigate(Screens.HOME)); 
-        } else {
-            console.error('No hay un ID válido de producto para actualizar');
-        }
+    submitForm()  {
+        addEvento(addpr);
+        alert('Evento creado')
+        // dispatch(navigate(Screens.ADMIN))
     }
 
     render() {
         if (this.shadowRoot) {
             this.shadowRoot.innerHTML = `
                 <div>
-                    <input type="text" id="albumName" placeholder="Enter album name">
-                     <input type="text" id="artistName" placeholder="Enter artist name">
-                      <input type="number" id="price" placeholder="Enter price" >
-                      <input type="number" id="stock" placeholder="Enter stock quantity">
+                    <input type="text" id="title" placeholder="Enter title">
+                     <input type="text" id="date" placeholder="Enter date">
+                      <input type="text" id="location" placeholder="Enter location" >
                        <input type="text" id="imageLink" placeholder="Enter image URL">
-                    <button id="submitButton" type="submit">Save Changes</button>
-                    <button id="cancel" type="submit">Cancel</button>
+                       <input type="text" id="at" placeholder="Enter attendees">
+                    <button id="submitButton" type="submit">Add Product</button>
                 </div>
             `;
             const buttonSubmit = this.shadowRoot?.querySelector("#submitButton")as HTMLButtonElement;
-            buttonSubmit.addEventListener('click', this.submitForm);
+                buttonSubmit.addEventListener('click', this.submitForm);
 
-            const songTitle = this.shadowRoot?.querySelector("#albumName") as HTMLInputElement;
-            songTitle.addEventListener('change', this.changeTitle);
+                const title = this.shadowRoot?.querySelector("#title") as HTMLInputElement;
+                title.addEventListener('change', this.changeTitle);
+	
+                const loc = this.shadowRoot?.querySelector("#location") as HTMLInputElement;
+                loc.addEventListener('change', this.changeLocation);
 
-            const songArtist = this.shadowRoot?.querySelector("#artistName") as HTMLInputElement;
-            songArtist.addEventListener('change', this.changeAutor);
+                const date = this.shadowRoot?.querySelector("#date") as HTMLInputElement;
+                date.addEventListener('change', this.changeDate);
 
-            const songAlbum = this.shadowRoot?.querySelector("#price") as HTMLInputElement;
-            songAlbum.addEventListener('change', this.changePrice);
+                const at = this.shadowRoot?.querySelector("#at") as HTMLInputElement;
+                at.addEventListener('change', this.changeAtendees);
 
-            const songDuration = this.shadowRoot?.querySelector("#stock") as HTMLInputElement;
-            songDuration.addEventListener('change', this.changeStock);
-
-            const songImage = this.shadowRoot?.querySelector("#imageLink") as HTMLInputElement;
-            songImage.addEventListener('change', this.changeImage);
-
-            const cancelButton = this.shadowRoot?.querySelector('#cancel')
-            cancelButton?.addEventListener('click', () => {
-               alert('Edicion cancelada')
-               dispatch(navigate(Screens.MODIFICAR))
-            });
+                const image = this.shadowRoot?.querySelector("#imageLink") as HTMLInputElement;
+                image.addEventListener('change', this.changeImage);
         }
         
     }
 }
 
-customElements.define("edit-commponent", EditP);
-export default EditP;
+customElements.define("event-form", Add);
+export default Add;

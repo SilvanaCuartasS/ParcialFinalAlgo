@@ -2,9 +2,9 @@ import { Actions, Screens } from '../types/store';
 import { getEvents } from '../utils/firebase';
 // import { getProducts } from '../utils/firebase';
 
-export const navigate = (screen: Screens) => {
+export const navigate = (screen: Screens) => { //Para cambair entre screens
 	return {
-		action: Actions.NAVIGATE,
+		action: Actions.navigate,
 		payload: screen,
 	};
 };

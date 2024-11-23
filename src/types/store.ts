@@ -1,27 +1,32 @@
 export type Observer = { render: () => void } & HTMLElement;
 
 export type AppState = {
-	screen: string;
-	products: any[];
-	currentProduct: {  
-        title: string;
-        date: number;
-        location: string;
-        image: string;
-        attendeess: number;
-    } | null;
+  screen: string;
+  events: event[];
+  // something: {};
 };
 
+type event = {
+  title: string,
+  date: number
+  location: string,
+  image: string,
+  atendees: number
+}
+
+export enum SomeActions {
+  "X" = "X",
+}
 
 
 export enum Screens {
-	'ADD' = 'ADD',
+
 	'EDIT' = 'EDIT',
-	'HOME' = 'HOME',
-	'MODIFICAR' = 'MODIFICAR'
+	'USER' = 'USER',
+	'ADMIN' = 'ADMIN'
 }
 
 export enum Actions {
-	'NAVIGATE' = 'NAVIGATE',
+	'navigate' = 'navigate',
 	'GETPRODUCTS' = 'GETPRODUCTS',
 }
